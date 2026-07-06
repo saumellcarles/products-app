@@ -23,7 +23,7 @@ El contador de la cesta se muestra en la cabecera en cualquier vista y persiste 
 | Context API | Estado global (cesta, breadcrumb dinámico) | Único estado realmente compartido entre vistas; no justifica Redux/MobX |
 | **Radix UI Themes** | Sistema de diseño | Componentes accesibles y con estilos consistentes (Button, Card, Select, Dialog primitives, DataList, Callout, Spinner...) sin escribir CSS desde cero para cada control |
 | **Radix Icons** | Iconografía | Set de iconos SVG coherente con Radix Themes (búsqueda, breadcrumb, estados, etc.) |
-| SCSS Modules | Estilos específicos | Solo donde Radix no llega: layout puntual, responsive, animaciones (ver "Estilos" más abajo) |
+| SCSS Modules | Estilos específicos | Solo donde Radix no llega: layout puntual, responsive, animaciones |
 | ESLint (Flat Config) | Calidad de código | Estándar actual de ESLint 9 |
 | Vitest + Testing Library | Tests | Integración nativa con Vite (misma config, sin runner adicional tipo Jest); tests de servicios/utilidades y de componentes |
 | pnpm | Gestor de paquetes | Instalación rápida y determinista mediante enlaces simbólicos |
@@ -80,6 +80,7 @@ src/
     services/                   http-client.js (Fetch API centralizado)
     storage/                    local-storage.service.js, cache.service.js
     constants/                  routes.js, request-status.js, theme.js
+                                  api/products.js (URL base + endpoints)
     styles/                     abstracts (variables/mixins) + base (reset/global)
     test-utils/                 renderWithProviders (Theme + MemoryRouter) para tests de componentes
   main.jsx
@@ -108,6 +109,20 @@ La URL base de la API se lee de `VITE_API_BASE_URL` (ver `.env`, ya incluido en 
 | `pnpm test:watch` | Tests en modo watch |
 | `pnpm lint` | Comprobación de código con ESLint |
 
+## Gestión de caché
+
+Capa de caché reutilizable (`shared/storage/cache.service.js`) aplicada al listado y al detalle de producto:
+
+- Cada entrada se persiste en `localStorage` con la forma `{ data, timestamp, ttl }`.
+- TTL por defecto: **1 hora**.
+- En cada lectura se comprueba `Date.now() - timestamp < ttl`; si ha expirado, la entrada se ignora (se trata como no existente) y `getOrFetch` vuelve a pedir los datos a la API, actualizando la caché automáticamente con la respuesta fresca.
+- La función `getOrFetch(key, fetcher, ttl)` es agnóstica del endpoint: `products.service.js` la usa tanto para el listado como para el detalle, y es reutilizable para cualquier otro dato que se quiera cachear en el futuro.
+- El contador de la cesta usa el mismo `local-storage.service.js` pero sin TTL (se persiste directamente, ya que refleja el estado real y actual de la cesta, no una respuesta cacheada de la API).
+
+## Integración continua
+
+`.github/workflows/ci.yml` ejecuta en cada push/PR a `main`, en este orden: **lint → build → test**, sobre Node 22 con pnpm.
+
 ## Cómo ejecutar el proyecto
 
 ```bash
@@ -124,42 +139,3 @@ docker compose up
 ```
 
 Levanta el servidor de desarrollo de Vite (con HMR) en `http://localhost:5173`, montando el proyecto como volumen. No requiere tener Node/pnpm instalados localmente.
-
-## Integración continua
-
-`.github/workflows/ci.yml` ejecuta en cada push/PR a `main`, en este orden: **lint → build → test**, sobre Node 20 con pnpm.
-
-## Gestión de caché
-
-Capa de caché reutilizable (`shared/storage/cache.service.js`) aplicada al listado y al detalle de producto:
-
-- Cada entrada se persiste en `localStorage` con la forma `{ data, timestamp, ttl }`.
-- TTL por defecto: **1 hora**.
-- En cada lectura se comprueba `Date.now() - timestamp < ttl`; si ha expirado, la entrada se ignora (se trata como no existente) y `getOrFetch` vuelve a pedir los datos a la API, actualizando la caché automáticamente con la respuesta fresca.
-- La función `getOrFetch(key, fetcher, ttl)` es agnóstica del endpoint: `products.service.js` la usa tanto para el listado como para el detalle, y es reutilizable para cualquier otro dato que se quiera cachear en el futuro.
-- El contador de la cesta usa el mismo `local-storage.service.js` pero sin TTL (se persiste directamente, ya que refleja el estado real y actual de la cesta, no una respuesta cacheada de la API).
-
-## Estilos
-
-SCSS Modules se mantiene solo donde Radix Themes no resuelve el caso:
-
-- **Layout específico**: el aspect-ratio/objeto de las imágenes de producto, la fila del Grid que comparte alto entre imagen y ficha técnica en la PDP.
-- **Responsive puntual**: el breadcrumb pasando a su propia línea en el Header por debajo de `tablet` (Radix Flex no expone `order`/`flex-basis` por breakpoint); la Card de acciones cambiando de columna en la rejilla de la PDP a partir de `md`.
-- **Animaciones**: la entrada del toast.
-- **Overrides mínimos**: cursor `pointer` en botones/controles (Radix Themes usa `cursor: default` por convención de escritorio; se sobrescribe una vez, de forma global, sobre `.radix-themes`).
-
-Todo lo demás (tipografía, espaciados, tarjetas, badges, selects, estados de carga/error/vacío) usa componentes de Radix Themes directamente vía props, sin CSS propio.
-
-## Decisiones técnicas
-
-- **Tema de Radix**: `accentColor="indigo"`, `grayColor="slate"`, `radius="large"`, definidos una única vez en `shared/constants/theme.js` y aplicados con `<Theme>` en la raíz de la app.
-- **App shell con altura fija**: `Layout` reserva al Header su tamaño natural y el resto del viewport para el área de contenido, que tiene su propio scroll (en vez de `<body>`). Esto permite que la PDP use un `ScrollArea` acotado a su alto real disponible para la ficha de especificaciones: si es muy larga, hace scroll interno en vez de empujar el botón "Añadir" fuera de la pantalla o forzar scroll de toda la página.
-- **Breadcrumb con etiqueta dinámica**: un `BreadcrumbContext` ligero (en `app/layout`) permite que la PDP fije el nombre real del producto como último segmento del breadcrumb una vez cargado, sin acoplar el Header a los datos de cada página.
-- **Selects nativos** sustituidos por `Select` de Radix Themes para color/almacenamiento, manteniendo la misma lógica de negocio (los códigos numéricos se convierten en el punto de uso, igual que antes).
-- **`ImageWithFallback`**: componente compartido entre `ProductCard` y `ProductImage` que capta el evento `onError` de la imagen y muestra un placeholder accesible, evitando duplicar esa lógica en ambos sitios.
-- **Toast sin provider global**: `Toast` es un componente autocontenido montado en un `Portal` de Radix (para no quedar recortado por el `overflow: hidden` del app shell), con auto-dismiss local en `ProductActions`. No se ha introducido un sistema de notificaciones global porque solo hay un caso de uso (feedback de añadir al carrito).
-- **Guard contra doble envío**: `useAddToCart` ignora nuevas llamadas mientras una petición está en curso, evitando peticiones duplicadas por doble clic.
-- **Contador de cesta acumulado en cliente**: la API de prueba no mantiene un carrito real en servidor (cada `POST /api/cart` devuelve siempre `count: 1`, sea cual sea el historial). El contador persistido se incrementa en cliente con cada respuesta en vez de sobrescribirse con ese valor, para reflejar de verdad cuántas unidades se han añadido.
-- **`react/prop-types` desactivado** en ESLint: al no usar TypeScript ni la librería `prop-types`, se documenta el contrato de props con JSDoc en vez de introducir una dependencia adicional solo para silenciar el linter.
-- **Sin `api.js` centralizado**: las rutas del endpoint (`/api/product`, `/api/cart`, ...) se definen inline en el único módulo que las usa (`products.api.js`, `cart.service.js`); solo la URL base (que sí varía por entorno) vive en `.env`.
-- **Grid de productos**: usa el `Grid` responsive de Radix Themes (`columns` distinto por breakpoint), cumpliendo el máximo de 4 productos por fila sin CSS de grid propio.
