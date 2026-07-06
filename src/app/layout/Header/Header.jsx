@@ -1,3 +1,4 @@
+import { Badge, Flex, Text } from '@radix-ui/themes';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../../features/cart';
 import { Breadcrumb } from '../../../shared/components';
@@ -11,23 +12,31 @@ export function Header() {
 
   return (
     <header className={styles.header}>
-      <Link to={ROUTES.PRODUCT_LIST} className={styles.brand} aria-label="Ir a la lista de productos">
-        <span className={styles.brandIcon} aria-hidden="true">
-          📱
-        </span>
-        <span className={styles.brandName}>Products App</span>
-      </Link>
+      <Flex align="center" justify="between" wrap="wrap" gap="3">
+        <Link to={ROUTES.PRODUCT_LIST} className={styles.brand} aria-label="Ir a la lista de productos">
+          <Flex align="center" gap="2">
+            <Text size="5" aria-hidden="true">
+              📱
+            </Text>
+            <Text size="5" weight="bold">
+              Products App
+            </Text>
+          </Flex>
+        </Link>
 
-      <div className={styles.breadcrumbWrapper}>
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
+        <div className={styles.breadcrumbWrapper}>
+          <Breadcrumb items={breadcrumbItems} />
+        </div>
 
-      <div className={styles.cartIndicator} aria-label={`Productos en la cesta: ${itemCount}`}>
-        <span className={styles.cartIcon} aria-hidden="true">
-          🛒
-        </span>
-        <span className={styles.cartCount}>{itemCount}</span>
-      </div>
+        <Flex align="center" gap="2" aria-label={`Productos en la cesta: ${itemCount}`}>
+          <Text size="5" aria-hidden="true">
+            🛒
+          </Text>
+          <Badge color="indigo" radius="full" size="2">
+            {itemCount}
+          </Badge>
+        </Flex>
+      </Flex>
     </header>
   );
 }
