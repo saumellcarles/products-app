@@ -1,15 +1,15 @@
+import { Container, Flex } from '@radix-ui/themes';
 import { Outlet } from 'react-router-dom';
-import { PageContainer } from '../../shared/components';
 import { Header } from './Header/Header.jsx';
 import styles from './Layout.module.scss';
 
 export function Layout() {
   return (
-    <div className={styles.layout}>
+    <Flex direction="column" className={styles.layout}>
       <Header />
-      <PageContainer>
+      <Container size="4" px={{ initial: '4', sm: '6' }} py="6">
         <Outlet />
-      </PageContainer>
-    </div>
+      </Container>
+    </Flex>
   );
 }

@@ -1,5 +1,6 @@
+// Radix `Flex` ya aplica display:flex/flex-direction; solo necesitamos que
+// ocupe el alto completo para que el footer visual (si lo hubiera) no quede
+// pegado al contenido.
 .layout {
   min-height: 100%;
-  display: flex;
-  flex-direction: column;
 }
