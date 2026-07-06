@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
+import { Box } from '@radix-ui/themes';
 import { Loading, ErrorState, EmptyState, SearchBar } from '../../../shared/components';
 import { REQUEST_STATUS } from '../../../shared/constants/request-status.js';
 import { useProducts } from '../hooks/useProducts.js';
 import { filterProductsByQuery } from '../utils/filter-products.js';
 import { ProductGrid } from '../components/ProductGrid/ProductGrid.jsx';
-import styles from './ProductListPage.module.scss';
 
 const SEARCH_LABEL = 'Buscar por marca o modelo';
 
@@ -35,11 +35,11 @@ export function ProductListPage() {
   }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.searchBar}>
+    <Box py="5">
+      <Box maxWidth="320px" ml="auto" mb="5">
         <SearchBar label={SEARCH_LABEL} placeholder={SEARCH_LABEL} value={query} onChange={setQuery} />
-      </div>
+      </Box>
       {renderContent()}
-    </div>
+    </Box>
   );
 }

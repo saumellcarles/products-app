@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { Flex, Text } from '@radix-ui/themes';
 import { Button, Select } from '../../../../shared/components';
 import { REQUEST_STATUS } from '../../../../shared/constants/request-status.js';
 import { useAddToCart } from '../../../cart';
-import styles from './ProductActions.module.scss';
 
 const STORAGE_LABEL = 'Almacenamiento';
 const COLOR_LABEL = 'Color';
@@ -22,7 +22,7 @@ export function ProductActions({ product }) {
   }
 
   return (
-    <div className={styles.actions}>
+    <Flex direction="column" align="stretch" gap="3">
       <Select
         label={STORAGE_LABEL}
         options={storageOptions}
@@ -40,10 +40,8 @@ export function ProductActions({ product }) {
         {isAdding ? 'Añadiendo…' : 'Añadir'}
       </Button>
 
-      {status === REQUEST_STATUS.SUCCESS && <p className={styles.feedback}>Producto añadido a la cesta.</p>}
-      {status === REQUEST_STATUS.ERROR && (
-        <p className={styles.feedbackError}>No se ha podido añadir el producto. Inténtalo de nuevo.</p>
-      )}
-    </div>
+      {status === REQUEST_STATUS.SUCCESS && <Text color="green">Producto añadido a la cesta.</Text>}
+      {status === REQUEST_STATUS.ERROR && <Text color="red">No se ha podido añadir el producto. Inténtalo de nuevo.</Text>}
+    </Flex>
   );
 }
