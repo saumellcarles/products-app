@@ -19,6 +19,18 @@ body {
   outline-offset: 2px;
 }
 
+// Radix Themes usa `cursor: default` en botones y controles por defecto
+// (siguiendo convenciones nativas de escritorio), redefinido en `.radix-themes`
+// (el wrapper de <Theme>), no en :root. Por eso el override tiene que apuntar
+// a ese mismo selector (duplicado para ganar por especificidad, sin depender
+// del orden de carga de las hojas de estilo) en vez de :root.
+.radix-themes.radix-themes {
+  --cursor-button: pointer;
+  --cursor-checkbox: pointer;
+  --cursor-radio: pointer;
+  --cursor-switch: pointer;
+}
+
 // Oculta visualmente un elemento sin quitarlo del árbol de accesibilidad.
 .sr-only {
   position: absolute;
