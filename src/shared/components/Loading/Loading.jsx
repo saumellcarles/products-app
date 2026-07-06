@@ -1,10 +1,10 @@
-import styles from './Loading.module.scss';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 
 export function Loading({ label = 'Cargando…' }) {
   return (
-    <div className={styles.loading} role="status" aria-live="polite">
-      <span className={styles.spinner} aria-hidden="true" />
-      <span>{label}</span>
-    </div>
+    <Flex direction="column" align="center" gap="3" p="8" role="status" aria-live="polite">
+      <Spinner size="3" />
+      <Text color="gray">{label}</Text>
+    </Flex>
   );
 }
