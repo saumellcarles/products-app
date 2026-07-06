@@ -2,3 +2,4 @@ export { PageContainer } from './PageContainer/PageContainer.jsx';
 export { Breadcrumb } from './Breadcrumb/Breadcrumb.jsx';
 export { Button } from './Button/Button.jsx';
 export { Select } from './Select/Select.jsx';
+export { Loading } from './Loading/Loading.jsx';
