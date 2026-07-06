@@ -31,6 +31,9 @@ export default [
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      // Sin TypeScript ni prop-types (por requisito del proyecto): se documenta
+      // el contrato de props con nombres descriptivos en vez de validación en runtime.
+      'react/prop-types': 'off',
     },
   },
   {
