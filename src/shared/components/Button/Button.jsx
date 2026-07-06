@@ -1,4 +1,9 @@
-import styles from './Button.module.scss';
+import { Button as RadixButton } from '@radix-ui/themes';
+
+const VARIANT_TO_RADIX_VARIANT = {
+  primary: 'solid',
+  secondary: 'soft',
+};
 
 /**
  * @param {{
@@ -11,14 +16,15 @@ import styles from './Button.module.scss';
  */
 export function Button({ children, variant = 'primary', type = 'button', disabled = false, onClick, ...rest }) {
   return (
-    <button
+    <RadixButton
       type={type}
-      className={`${styles.button} ${styles[variant]}`}
+      variant={VARIANT_TO_RADIX_VARIANT[variant]}
       disabled={disabled}
       onClick={onClick}
+      size="3"
       {...rest}
     >
       {children}
-    </button>
+    </RadixButton>
   );
 }
