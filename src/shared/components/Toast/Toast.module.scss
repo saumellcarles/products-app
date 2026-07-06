@@ -1,0 +1,36 @@
+@use '../../styles/abstracts/variables' as v;
+@use '../../styles/abstracts/mixins' as m;
+
+.toast {
+  position: fixed;
+  right: v.$spacing-lg;
+  bottom: v.$spacing-lg;
+  @include m.layer(toast);
+  padding: v.$spacing-sm v.$spacing-md;
+  border-radius: v.$radius-md;
+  box-shadow: v.$shadow-lg;
+  background-color: var(--color-panel-solid);
+  animation: toast-in v.$transition-base;
+
+  &[data-variant='success'] {
+    color: var(--green-11);
+    border: 1px solid var(--green-6);
+  }
+
+  &[data-variant='error'] {
+    color: var(--red-11);
+    border: 1px solid var(--red-6);
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(v.$spacing-sm);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
