@@ -1,0 +1,12 @@
+@use '../../styles/abstracts/variables' as v;
+@use '../../styles/abstracts/mixins' as m;
+
+.fallback {
+  @include m.center;
+  width: 100%;
+  height: 100%;
+  min-height: v.$spacing-xxxl;
+  background-color: v.$color-background-alt;
+  color: v.$color-text-muted;
+  font-size: v.$font-size-xxl;
+}
