@@ -10,17 +10,18 @@
   padding: v.$spacing-sm v.$spacing-lg;
   border-radius: v.$radius-md;
   box-shadow: v.$shadow-lg;
-  background-color: var(--color-panel-solid);
   animation: toast-in v.$transition-base;
 
   &[data-variant='success'] {
     color: var(--green-11);
-    border: 1px solid var(--green-6);
+    background-color: var(--green-3);
+    border: 1px solid var(--green-7);
   }
 
   &[data-variant='error'] {
     color: var(--red-11);
-    border: 1px solid var(--red-6);
+    background-color: var(--red-3);
+    border: 1px solid var(--red-7);
   }
 }
 
