@@ -18,7 +18,9 @@ export function Header() {
         <span className={styles.brandName}>Products App</span>
       </Link>
 
-      <Breadcrumb items={breadcrumbItems} />
+      <div className={styles.breadcrumbWrapper}>
+        <Breadcrumb items={breadcrumbItems} />
+      </div>
 
       <div className={styles.cartIndicator} aria-label={`Productos en la cesta: ${itemCount}`}>
         <span className={styles.cartIcon} aria-hidden="true">

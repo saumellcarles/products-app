@@ -3,8 +3,10 @@
 
 .header {
   @include m.flex(row, center, space-between, v.$spacing-sm);
-  height: v.$header-height;
+  flex-wrap: wrap;
+  min-height: v.$header-height;
   padding-inline: v.$spacing-md;
+  padding-block: v.$spacing-xs;
   background-color: v.$color-background;
   border-bottom: 1px solid v.$color-border;
   @include m.layer(header);
@@ -13,6 +15,18 @@
 
   @include m.respond-to(tablet) {
     padding-inline: v.$spacing-xl;
+  }
+}
+
+// Bajo el breakpoint de tablet no cabe todo en una fila: el breadcrumb pasa
+// a ocupar su propia línea para no solaparse con el resto de la cabecera.
+.breadcrumbWrapper {
+  order: 3;
+  flex-basis: 100%;
+
+  @include m.respond-to(tablet) {
+    order: 0;
+    flex-basis: auto;
   }
 }
 
