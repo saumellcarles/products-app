@@ -1,18 +1,26 @@
 import { formatPrice } from '../../utils/format-price.js';
+import { toDisplayText } from '../../utils/to-display-text.js';
 import styles from './ProductDescription.module.scss';
 
 const VALUE_PLACEHOLDER = '—';
 const NO_SECONDARY_CAMERA_VALUES = new Set(['no', '']);
 
 function formatCameras(primaryCamera, secondaryCamera) {
-  const hasSecondaryCamera = secondaryCamera && !NO_SECONDARY_CAMERA_VALUES.has(secondaryCamera.toLowerCase());
-  return hasSecondaryCamera ? `${primaryCamera} / ${secondaryCamera}` : primaryCamera;
+  const primary = toDisplayText(primaryCamera);
+  const secondary = toDisplayText(secondaryCamera);
+  const hasSecondaryCamera = secondary && !NO_SECONDARY_CAMERA_VALUES.has(secondary.toLowerCase());
+
+  return hasSecondaryCamera ? `${primary} / ${secondary}` : primary;
 }
 
 /**
  * Lista de especificaciones del producto. Requiere al menos: Marca, Modelo,
  * Precio, CPU, RAM, Sistema Operativo, Resolución de pantalla, Batería,
  * Cámaras, Dimensiones y Peso.
+ *
+ * Varios de estos campos (cpu, ram, os, primaryCamera, secondaryCmera)
+ * llegan de la API como array o como string según el producto, de ahí el
+ * paso por `toDisplayText`.
  */
 export function ProductDescription({ product }) {
   const {
@@ -34,9 +42,9 @@ export function ProductDescription({ product }) {
     { label: 'Marca', value: brand },
     { label: 'Modelo', value: model },
     { label: 'Precio', value: formatPrice(price) },
-    { label: 'CPU', value: Array.isArray(cpu) ? cpu.join(' ') : cpu },
-    { label: 'RAM', value: ram },
-    { label: 'Sistema Operativo', value: os },
+    { label: 'CPU', value: toDisplayText(cpu) },
+    { label: 'RAM', value: toDisplayText(ram) },
+    { label: 'Sistema Operativo', value: toDisplayText(os) },
     { label: 'Resolución de pantalla', value: displayResolution },
     { label: 'Batería', value: battery },
     { label: 'Cámaras', value: formatCameras(primaryCamera, secondaryCamera) },
