@@ -1,0 +1,26 @@
+@use '../../../shared/styles/abstracts/variables' as v;
+@use '../../../shared/styles/abstracts/mixins' as m;
+
+.page {
+  padding-block: v.$spacing-lg;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: v.$spacing-lg;
+  color: v.$color-primary;
+  font-weight: v.$font-weight-medium;
+
+  @include m.hover-focus {
+    text-decoration: underline;
+  }
+}
+
+.content {
+  @include m.grid(1, v.$spacing-xl);
+
+  @include m.respond-to(tablet) {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
