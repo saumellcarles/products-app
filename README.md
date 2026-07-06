@@ -23,3 +23,4 @@ Mini aplicación SPA para comprar dispositivos móviles, desarrollada como prueb
 - `POST /api/cart` — añadir producto a la cesta
 
 Dominio: `https://itx-frontend-test.onrender.com/`
+# products-app
