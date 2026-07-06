@@ -4,7 +4,7 @@ import { REQUEST_STATUS } from '../../../shared/constants/request-status.js';
 import { ROUTES } from '../../../shared/constants/routes.js';
 import { useProductDetails } from '../hooks/useProductDetails.js';
 import { ProductImage } from '../components/ProductImage/ProductImage.jsx';
-import { formatPrice } from '../utils/format-price.js';
+import { ProductDescription } from '../components/ProductDescription/ProductDescription.jsx';
 import styles from './ProductDetailsPage.module.scss';
 
 export function ProductDetailsPage() {
@@ -19,7 +19,7 @@ export function ProductDetailsPage() {
     return <ErrorState message="No se ha podido cargar el producto." onRetry={reload} />;
   }
 
-  const { brand, model, price, imgUrl } = product;
+  const { brand, model, imgUrl } = product;
 
   return (
     <div className={styles.page}>
@@ -34,7 +34,7 @@ export function ProductDetailsPage() {
           <h1>
             {brand} {model}
           </h1>
-          <p>{formatPrice(price)}</p>
+          <ProductDescription product={product} />
         </div>
       </div>
     </div>
