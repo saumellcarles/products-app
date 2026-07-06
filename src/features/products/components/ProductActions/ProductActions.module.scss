@@ -7,3 +7,13 @@
   padding-top: v.$spacing-lg;
   border-top: 1px solid v.$color-border;
 }
+
+.feedback {
+  color: v.$color-success;
+  font-weight: v.$font-weight-medium;
+}
+
+.feedbackError {
+  color: v.$color-error;
+  font-weight: v.$font-weight-medium;
+}
