@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Box } from '@radix-ui/themes';
 import { Loading, ErrorState, EmptyState, SearchBar } from '../../../shared/components';
 import { REQUEST_STATUS } from '../../../shared/constants/request-status.js';
@@ -7,12 +8,29 @@ import { filterProductsByQuery } from '../utils/filter-products.js';
 import { ProductGrid } from '../components/ProductGrid/ProductGrid.jsx';
 
 const SEARCH_LABEL = 'Buscar por marca o modelo';
+const SEARCH_QUERY_PARAM = 'q';
 
 export function ProductListPage() {
   const { status, products, reload } = useProducts();
-  const [query, setQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get(SEARCH_QUERY_PARAM) ?? '';
 
   const filteredProducts = useMemo(() => filterProductsByQuery(products, query), [products, query]);
+
+  // Persiste la búsqueda en la URL (?q=) para poder recargar o compartirla
+  // con los mismos resultados filtrados. `replace: true` evita generar una
+  // entrada de historial por cada pulsación de tecla.
+  function handleQueryChange(value) {
+    const nextParams = new URLSearchParams(searchParams);
+
+    if (value) {
+      nextParams.set(SEARCH_QUERY_PARAM, value);
+    } else {
+      nextParams.delete(SEARCH_QUERY_PARAM);
+    }
+
+    setSearchParams(nextParams, { replace: true });
+  }
 
   function renderContent() {
     if (status === REQUEST_STATUS.LOADING) {
@@ -37,7 +55,7 @@ export function ProductListPage() {
   return (
     <Box py="5">
       <Box maxWidth="320px" ml="auto" mb="5">
-        <SearchBar label={SEARCH_LABEL} placeholder={SEARCH_LABEL} value={query} onChange={setQuery} />
+        <SearchBar label={SEARCH_LABEL} placeholder={SEARCH_LABEL} value={query} onChange={handleQueryChange} />
       </Box>
       {renderContent()}
     </Box>
