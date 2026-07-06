@@ -1,7 +1,7 @@
 import { Loading, ErrorState, EmptyState } from '../../../shared/components';
 import { REQUEST_STATUS } from '../../../shared/constants/request-status.js';
 import { useProducts } from '../hooks/useProducts.js';
-import { ProductCard } from '../components/ProductCard/ProductCard.jsx';
+import { ProductGrid } from '../components/ProductGrid/ProductGrid.jsx';
 
 export function ProductListPage() {
   const { status, products, reload } = useProducts();
@@ -18,11 +18,5 @@ export function ProductListPage() {
     return <EmptyState message="No hay productos disponibles." />;
   }
 
-  return (
-    <div>
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </div>
-  );
+  return <ProductGrid products={products} />;
 }

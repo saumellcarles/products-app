@@ -1,0 +1,20 @@
+@use '../../../../shared/styles/abstracts/variables' as v;
+@use '../../../../shared/styles/abstracts/mixins' as m;
+
+// 1 columna en mobile, 2 en tablet, 3 en desktop pequeño y 4 (máximo
+// requerido) a partir de v.$breakpoint-desktop.
+.grid {
+  @include m.grid(1, v.$spacing-md);
+
+  @include m.respond-to(mobile) {
+    @include m.grid(2, v.$spacing-md);
+  }
+
+  @include m.respond-to(tablet) {
+    @include m.grid(3, v.$spacing-lg);
+  }
+
+  @include m.respond-to(desktop) {
+    @include m.grid(v.$products-grid-max-columns, v.$spacing-lg);
+  }
+}
