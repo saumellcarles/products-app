@@ -1,0 +1,59 @@
+@use '../../../shared/styles/abstracts/variables' as v;
+@use '../../../shared/styles/abstracts/mixins' as m;
+
+.header {
+  @include m.flex(row, center, space-between);
+  height: v.$header-height;
+  padding-inline: v.$spacing-md;
+  background-color: v.$color-background;
+  border-bottom: 1px solid v.$color-border;
+  @include m.layer(header);
+  position: sticky;
+  top: 0;
+
+  @include m.respond-to(tablet) {
+    padding-inline: v.$spacing-xl;
+  }
+}
+
+.brand {
+  @include m.flex(row, center, flex-start, v.$spacing-xs);
+  font-weight: v.$font-weight-semibold;
+  font-size: v.$font-size-lg;
+  color: v.$color-text;
+
+  @include m.hover-focus {
+    color: v.$color-primary;
+  }
+}
+
+.brandIcon {
+  font-size: v.$font-size-xl;
+  line-height: 1;
+}
+
+.brandName {
+  @include m.text-truncate;
+}
+
+.cartIndicator {
+  @include m.flex(row, center, flex-end, v.$spacing-xxs);
+  position: relative;
+  font-weight: v.$font-weight-medium;
+}
+
+.cartIcon {
+  font-size: v.$font-size-lg;
+  line-height: 1;
+}
+
+.cartCount {
+  min-width: v.$spacing-lg;
+  height: v.$spacing-lg;
+  border-radius: v.$radius-round;
+  background-color: v.$color-primary;
+  color: v.$color-text-inverse;
+  font-size: v.$font-size-xs;
+  @include m.center;
+  padding-inline: v.$spacing-xxs;
+}
