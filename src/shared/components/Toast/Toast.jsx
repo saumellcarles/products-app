@@ -18,7 +18,7 @@ export function Toast({ message, variant = 'success' }) {
 
   return (
     <Portal>
-      <Flex align="center" gap="2" className={styles.toast} data-variant={variant} role="status">
+      <Flex align="center" gap="3" className={styles.toast} data-variant={variant} role="status">
         <Icon />
         <Text size="2" weight="medium">
           {message}

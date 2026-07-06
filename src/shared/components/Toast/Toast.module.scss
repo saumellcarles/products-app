@@ -3,10 +3,11 @@
 
 .toast {
   position: fixed;
-  right: v.$spacing-lg;
+  left: 50%;
   bottom: v.$spacing-lg;
+  transform: translateX(-50%);
   @include m.layer(toast);
-  padding: v.$spacing-sm v.$spacing-md;
+  padding: v.$spacing-sm v.$spacing-lg;
   border-radius: v.$radius-md;
   box-shadow: v.$shadow-lg;
   background-color: var(--color-panel-solid);
@@ -26,11 +27,11 @@
 @keyframes toast-in {
   from {
     opacity: 0;
-    transform: translateY(v.$spacing-sm);
+    transform: translate(-50%, v.$spacing-sm);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
 }
