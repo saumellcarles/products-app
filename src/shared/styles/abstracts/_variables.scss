@@ -1,0 +1,16 @@
+// Punto de entrada único para las variables reutilizables del proyecto.
+// El resto de partials de `abstracts/` se re-exportan aquí para que los
+// componentes solo necesiten un `@use '.../variables' as v;`.
+@forward 'colors';
+@forward 'spacing';
+@forward 'typography';
+@forward 'breakpoints';
+@forward 'z-index';
+
+$transition-fast: 150ms ease-in-out;
+$transition-base: 250ms ease-in-out;
+$transition-slow: 400ms ease-in-out;
+
+$container-max-width: 1280px;
+$header-height: 64px;
+$products-grid-max-columns: 4;

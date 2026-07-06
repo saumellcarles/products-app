@@ -1,0 +1,85 @@
+@use 'breakpoints' as bp;
+@use 'z-index' as z;
+
+$layers: (
+  base: z.$z-index-base,
+  dropdown: z.$z-index-dropdown,
+  sticky: z.$z-index-sticky,
+  header: z.$z-index-header,
+  overlay: z.$z-index-overlay,
+  modal: z.$z-index-modal,
+  toast: z.$z-index-toast,
+);
+
+/// Flexbox de una línea con control de dirección, alineación y espaciado.
+@mixin flex($direction: row, $align: center, $justify: flex-start, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+
+  @if $gap != 0 {
+    gap: $gap;
+  }
+}
+
+/// Grid con número de columnas y espaciado configurables.
+@mixin grid($columns: 1, $gap: 0) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+
+  @if $gap != 0 {
+    gap: $gap;
+  }
+}
+
+/// Aplica el bloque de estilos a partir del breakpoint indicado (mobile-first).
+/// Uso: @include respond-to(tablet) { ... }
+@mixin respond-to($breakpoint) {
+  @if not map-has-key(bp.$breakpoints, $breakpoint) {
+    @error "Breakpoint desconocido: #{$breakpoint}. Usa uno de #{map-keys(bp.$breakpoints)}.";
+  }
+
+  @media (min-width: map-get(bp.$breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+/// Estilos aplicados en hover, mostrados también en :focus-visible por accesibilidad.
+@mixin hover-focus {
+  &:hover,
+  &:focus-visible {
+    @content;
+  }
+}
+
+/// Trunca texto en una única línea con puntos suspensivos.
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/// Centrado mediante flexbox, tanto horizontal como vertical.
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/// Centrado absoluto de un elemento respecto a su ancestro posicionado.
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/// z-index semántico centralizado, evita "números mágicos" en los componentes.
+@mixin layer($name) {
+  @if not map-has-key($layers, $name) {
+    @error "Capa de z-index desconocida: #{$name}. Usa uno de #{map-keys($layers)}.";
+  }
+
+  z-index: map-get($layers, $name);
+}

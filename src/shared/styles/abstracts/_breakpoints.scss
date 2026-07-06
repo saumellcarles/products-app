@@ -1,0 +1,11 @@
+// Breakpoints centralizados. El grid de productos usa estos mismos valores
+// para pasar de 1 a 4 columnas (ver mixin `respond-to` y ProductGrid).
+$breakpoint-mobile: 600px;
+$breakpoint-tablet: 900px;
+$breakpoint-desktop: 1200px;
+
+$breakpoints: (
+  mobile: $breakpoint-mobile,
+  tablet: $breakpoint-tablet,
+  desktop: $breakpoint-desktop,
+);
