@@ -1,5 +1,8 @@
-import { Link } from 'react-router-dom';
-import styles from './Breadcrumb.module.scss';
+import { Link as RouterLink } from 'react-router-dom';
+import { Flex, Link as RadixLink, Text } from '@radix-ui/themes';
+import { ChevronRightIcon } from '@radix-ui/react-icons';
+
+const SEPARATOR_STYLE = { color: 'var(--gray-8)' };
 
 /**
  * @param {{ items: Array<{ label: string, to?: string }> }} props
@@ -7,27 +10,27 @@ import styles from './Breadcrumb.module.scss';
  */
 export function Breadcrumb({ items }) {
   return (
-    <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
-      <ol className={styles.list}>
+    <Flex asChild align="center" gap="2" wrap="wrap">
+      <nav aria-label="Breadcrumb">
         {items.map((item, index) => {
           const isCurrentPage = index === items.length - 1;
 
           return (
-            <li key={item.label} className={styles.item}>
+            <Flex key={item.label} align="center" gap="2">
               {isCurrentPage || !item.to ? (
-                <span aria-current={isCurrentPage ? 'page' : undefined}>{item.label}</span>
+                <Text size="2" color="gray" aria-current={isCurrentPage ? 'page' : undefined}>
+                  {item.label}
+                </Text>
               ) : (
-                <Link to={item.to}>{item.label}</Link>
+                <RadixLink asChild size="2" color="gray">
+                  <RouterLink to={item.to}>{item.label}</RouterLink>
+                </RadixLink>
               )}
-              {!isCurrentPage && (
-                <span className={styles.separator} aria-hidden="true">
-                  /
-                </span>
-              )}
-            </li>
+              {!isCurrentPage && <ChevronRightIcon aria-hidden="true" style={SEPARATOR_STYLE} />}
+            </Flex>
           );
         })}
-      </ol>
-    </nav>
+      </nav>
+    </Flex>
   );
 }
