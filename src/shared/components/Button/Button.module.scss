@@ -1,0 +1,37 @@
+@use '../../styles/abstracts/variables' as v;
+@use '../../styles/abstracts/mixins' as m;
+
+.button {
+  @include m.center;
+  gap: v.$spacing-xs;
+  height: v.$spacing-xxl;
+  padding-inline: v.$spacing-lg;
+  border-radius: v.$radius-md;
+  font-weight: v.$font-weight-semibold;
+  font-size: v.$font-size-md;
+  transition: background-color v.$transition-fast, opacity v.$transition-fast;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.primary {
+  background-color: v.$color-primary;
+  color: v.$color-text-inverse;
+
+  @include m.hover-focus {
+    background-color: v.$color-primary-dark;
+  }
+}
+
+.secondary {
+  background-color: transparent;
+  color: v.$color-primary;
+  border: 1px solid v.$color-primary;
+
+  @include m.hover-focus {
+    background-color: v.$color-primary-light;
+  }
+}
