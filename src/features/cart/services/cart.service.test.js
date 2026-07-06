@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
 import { httpClient } from '../../../shared/services/http-client.js';
-import { API_ENDPOINTS } from '../../../shared/constants/api.js';
 import { addProductToCart } from './cart.service.js';
 
 vi.mock('../../../shared/services/http-client.js', () => ({
@@ -13,7 +12,7 @@ describe('cart.service', () => {
 
     const result = await addProductToCart({ id: 'abc', colorCode: 1000, storageCode: 2000 });
 
-    expect(httpClient.post).toHaveBeenCalledWith(API_ENDPOINTS.CART, {
+    expect(httpClient.post).toHaveBeenCalledWith('/api/cart', {
       id: 'abc',
       colorCode: 1000,
       storageCode: 2000,

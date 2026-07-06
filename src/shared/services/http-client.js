@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../constants/api.js';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export class ApiError extends Error {
   constructor(message, status) {
@@ -26,7 +26,7 @@ async function request(path, options) {
 
   return response.json();
 }
-
+ 
 /**
  * Cliente HTTP centralizado sobre Fetch API. Toda comunicación con la API
  * pasa por aquí: los componentes nunca invocan `fetch` directamente.
