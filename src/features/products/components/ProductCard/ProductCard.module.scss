@@ -1,0 +1,50 @@
+@use '../../../../shared/styles/abstracts/variables' as v;
+@use '../../../../shared/styles/abstracts/mixins' as m;
+
+.card {
+  @include m.flex(column, stretch, flex-start);
+  background-color: v.$color-background;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-md;
+  overflow: hidden;
+  transition: box-shadow v.$transition-fast, transform v.$transition-fast;
+
+  @include m.hover-focus {
+    box-shadow: v.$shadow-md;
+    transform: translateY(-2px);
+  }
+}
+
+.imageWrapper {
+  aspect-ratio: 1 / 1;
+  background-color: v.$color-background-alt;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.info {
+  @include m.flex(column, flex-start, flex-start, v.$spacing-xxs);
+  padding: v.$spacing-md;
+}
+
+.brand {
+  font-size: v.$font-size-sm;
+  color: v.$color-text-muted;
+  @include m.text-truncate;
+  width: 100%;
+}
+
+.model {
+  font-weight: v.$font-weight-semibold;
+  @include m.text-truncate;
+  width: 100%;
+}
+
+.price {
+  font-weight: v.$font-weight-bold;
+  color: v.$color-primary;
+}
