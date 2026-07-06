@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use 'breakpoints' as bp;
 @use 'z-index' as z;
 
@@ -36,11 +37,11 @@ $layers: (
 /// Aplica el bloque de estilos a partir del breakpoint indicado (mobile-first).
 /// Uso: @include respond-to(tablet) { ... }
 @mixin respond-to($breakpoint) {
-  @if not map-has-key(bp.$breakpoints, $breakpoint) {
-    @error "Breakpoint desconocido: #{$breakpoint}. Usa uno de #{map-keys(bp.$breakpoints)}.";
+  @if not map.has-key(bp.$breakpoints, $breakpoint) {
+    @error "Breakpoint desconocido: #{$breakpoint}. Usa uno de #{map.keys(bp.$breakpoints)}.";
   }
 
-  @media (min-width: map-get(bp.$breakpoints, $breakpoint)) {
+  @media (min-width: map.get(bp.$breakpoints, $breakpoint)) {
     @content;
   }
 }
@@ -77,9 +78,9 @@ $layers: (
 
 /// z-index semántico centralizado, evita "números mágicos" en los componentes.
 @mixin layer($name) {
-  @if not map-has-key($layers, $name) {
-    @error "Capa de z-index desconocida: #{$name}. Usa uno de #{map-keys($layers)}.";
+  @if not map.has-key($layers, $name) {
+    @error "Capa de z-index desconocida: #{$name}. Usa uno de #{map.keys($layers)}.";
   }
 
-  z-index: map-get($layers, $name);
+  z-index: map.get($layers, $name);
 }
