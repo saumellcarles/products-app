@@ -86,14 +86,6 @@ src/
   main.jsx
 ```
 
-## Instalación
-
-Requiere Node.js y [pnpm](https://pnpm.io/).
-
-```bash
-pnpm install
-```
-
 ## Variables de entorno
 
 La URL base de la API se lee de `VITE_API_BASE_URL` (ver `.env`, ya incluido en el repo porque no contiene ningún secreto). Para apuntar a otro entorno sin tocar el repositorio, crea un `.env.local` (ignorado por git) con el mismo valor sobrescrito.
@@ -124,6 +116,8 @@ Capa de caché reutilizable (`shared/storage/cache.service.js`) aplicada al list
 `.github/workflows/ci.yml` ejecuta en cada push/PR a `main`, en este orden: **lint → build → test**, sobre Node 22 con pnpm.
 
 ## Cómo ejecutar el proyecto
+
+Requiere Node.js y [pnpm](https://pnpm.io/).
 
 ```bash
 pnpm install
