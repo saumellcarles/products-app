@@ -5,6 +5,7 @@ import { ROUTES } from '../../../shared/constants/routes.js';
 import { useProductDetails } from '../hooks/useProductDetails.js';
 import { ProductImage } from '../components/ProductImage/ProductImage.jsx';
 import { ProductDescription } from '../components/ProductDescription/ProductDescription.jsx';
+import { ProductActions } from '../components/ProductActions/ProductActions.jsx';
 import styles from './ProductDetailsPage.module.scss';
 
 export function ProductDetailsPage() {
@@ -35,6 +36,7 @@ export function ProductDetailsPage() {
             {brand} {model}
           </h1>
           <ProductDescription product={product} />
+          <ProductActions product={product} />
         </div>
       </div>
     </div>
