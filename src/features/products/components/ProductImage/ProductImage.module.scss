@@ -4,6 +4,10 @@
 .wrapper {
   @include m.center;
   aspect-ratio: 1 / 1;
+  // Como hijo directo de un Grid, sin min-width:0 el tamaño intrínseco de la
+  // imagen puede desbordar la pista de la columna (min-width:auto por defecto).
+  min-width: 0;
+  width: 100%;
   background-color: v.$color-background;
   border: 1px solid v.$color-border;
   border-radius: v.$radius-lg;

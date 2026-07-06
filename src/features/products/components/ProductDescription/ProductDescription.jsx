@@ -1,6 +1,6 @@
+import { Badge, DataList } from '@radix-ui/themes';
 import { formatPrice } from '../../utils/format-price.js';
 import { toDisplayText } from '../../utils/to-display-text.js';
-import styles from './ProductDescription.module.scss';
 
 const VALUE_PLACEHOLDER = '—';
 const NO_SECONDARY_CAMERA_VALUES = new Set(['no', '']);
@@ -41,7 +41,7 @@ export function ProductDescription({ product }) {
   const specs = [
     { label: 'Marca', value: brand },
     { label: 'Modelo', value: model },
-    { label: 'Precio', value: formatPrice(price) },
+    { label: 'Precio', value: <Badge color="indigo">{formatPrice(price)}</Badge> },
     { label: 'CPU', value: toDisplayText(cpu) },
     { label: 'RAM', value: toDisplayText(ram) },
     { label: 'Sistema Operativo', value: toDisplayText(os) },
@@ -53,13 +53,13 @@ export function ProductDescription({ product }) {
   ];
 
   return (
-    <dl className={styles.list}>
+    <DataList.Root orientation={{ initial: 'vertical', xs: 'horizontal' }} size="2">
       {specs.map(({ label, value }) => (
-        <div className={styles.item} key={label}>
-          <dt className={styles.label}>{label}</dt>
-          <dd className={styles.value}>{value || VALUE_PLACEHOLDER}</dd>
-        </div>
+        <DataList.Item key={label}>
+          <DataList.Label minWidth="160px">{label}</DataList.Label>
+          <DataList.Value>{value || VALUE_PLACEHOLDER}</DataList.Value>
+        </DataList.Item>
       ))}
-    </dl>
+    </DataList.Root>
   );
 }

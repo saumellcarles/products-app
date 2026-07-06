@@ -3,9 +3,6 @@
 
 .actions {
   @include m.flex(column, stretch, flex-start, v.$spacing-md);
-  margin-top: v.$spacing-lg;
-  padding-top: v.$spacing-lg;
-  border-top: 1px solid v.$color-border;
 }
 
 .feedback {
