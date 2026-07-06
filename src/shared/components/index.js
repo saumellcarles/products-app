@@ -6,3 +6,4 @@ export { Loading } from './Loading/Loading.jsx';
 export { ErrorState } from './ErrorState/ErrorState.jsx';
 export { EmptyState } from './EmptyState/EmptyState.jsx';
 export { ImageWithFallback } from './ImageWithFallback/ImageWithFallback.jsx';
+export { SearchBar } from './SearchBar/SearchBar.jsx';

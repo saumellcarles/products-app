@@ -18,3 +18,16 @@ body {
   outline: 2px solid v.$color-primary;
   outline-offset: 2px;
 }
+
+// Oculta visualmente un elemento sin quitarlo del árbol de accesibilidad.
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
