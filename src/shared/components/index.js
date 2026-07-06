@@ -4,3 +4,4 @@ export { Button } from './Button/Button.jsx';
 export { Select } from './Select/Select.jsx';
 export { Loading } from './Loading/Loading.jsx';
 export { ErrorState } from './ErrorState/ErrorState.jsx';
+export { EmptyState } from './EmptyState/EmptyState.jsx';

@@ -1,0 +1,13 @@
+@use '../../styles/abstracts/variables' as v;
+@use '../../styles/abstracts/mixins' as m;
+
+.emptyState {
+  @include m.flex(column, center, center, v.$spacing-md);
+  padding: v.$spacing-xxl;
+  text-align: center;
+  color: v.$color-text-muted;
+}
+
+.icon {
+  font-size: v.$font-size-xxl;
+}
