@@ -1,5 +1,4 @@
-import { useId } from 'react';
-import styles from './Select.module.scss';
+import { Flex, Select as RadixSelect, Text } from '@radix-ui/themes';
 
 /**
  * @param {{
@@ -11,26 +10,21 @@ import styles from './Select.module.scss';
  * }} props
  */
 export function Select({ label, options, value, onChange, disabled = false }) {
-  const id = useId();
-
   return (
-    <div className={styles.field}>
-      <label htmlFor={id} className={styles.label}>
+    <Flex direction="column" gap="1">
+      <Text as="label" size="2" weight="medium" color="gray">
         {label}
-      </label>
-      <select
-        id={id}
-        className={styles.select}
-        value={value}
-        disabled={disabled}
-        onChange={(event) => onChange(event.target.value)}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </div>
+      </Text>
+      <RadixSelect.Root value={String(value)} onValueChange={onChange} disabled={disabled} size="3">
+        <RadixSelect.Trigger aria-label={label} />
+        <RadixSelect.Content>
+          {options.map((option) => (
+            <RadixSelect.Item key={option.value} value={String(option.value)}>
+              {option.label}
+            </RadixSelect.Item>
+          ))}
+        </RadixSelect.Content>
+      </RadixSelect.Root>
+    </Flex>
   );
 }
