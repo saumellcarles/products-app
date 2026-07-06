@@ -1,15 +1,16 @@
 @use '../../../shared/styles/abstracts/variables' as v;
 @use '../../../shared/styles/abstracts/mixins' as m;
 
+// Ya no necesita `position: sticky`: al vivir fuera de `.scrollArea` (ver
+// Layout.jsx/module.scss), nunca se desplaza y siempre queda visible.
 .header {
+  flex-shrink: 0;
   min-height: v.$header-height;
   padding-inline: v.$spacing-md;
   padding-block: v.$spacing-xs;
   background-color: v.$color-background;
   border-bottom: 1px solid v.$color-border;
   @include m.layer(header);
-  position: sticky;
-  top: 0;
 
   @include m.respond-to(tablet) {
     padding-inline: v.$spacing-xl;

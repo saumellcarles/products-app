@@ -1,0 +1,10 @@
+// El Grid usa el breakpoint `md` (1024px) de Radix para pasar a 2 columnas
+// (`columns={{ initial: '1', md: '360px 1fr' }}`). Este media query duplica
+// ese mismo valor a propósito: en mobile la Card de acciones debe apilarse
+// con el resto (columna única); a partir de `md` debe quedar bajo la
+// descripción, en la segunda columna, no bajo la imagen.
+.actionsCell {
+  @media (min-width: 1024px) {
+    grid-column: 2;
+  }
+}

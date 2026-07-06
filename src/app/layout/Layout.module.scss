@@ -1,6 +1,22 @@
-// Radix `Flex` ya aplica display:flex/flex-direction; solo necesitamos que
-// ocupe el alto completo para que el footer visual (si lo hubiera) no quede
-// pegado al contenido.
+// El shell ocupa exactamente el alto del viewport (no min-height): el
+// Header mantiene su tamaño natural y `.scrollArea` recibe el resto vía
+// flex, con su propio scroll. Así una página como la PDP puede apoyarse en
+// una altura 100% real para decidir si necesita scroll propio, en vez de
+// desbordar toda la página.
 .layout {
-  min-height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.scrollArea {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+// El wrapper exterior de `Container` no recibe su prop `height`, que solo se
+// aplica al div interno (`.rt-ContainerInner`); sin esto, ese div interno
+// hereda una altura indefinida y `height="100%"` no tiene contra qué resolver.
+.container {
+  height: 100%;
 }
