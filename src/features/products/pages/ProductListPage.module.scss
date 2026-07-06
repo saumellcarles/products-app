@@ -1,0 +1,11 @@
+@use '../../../shared/styles/abstracts/variables' as v;
+
+.page {
+  padding-block: v.$spacing-lg;
+}
+
+.searchBar {
+  max-width: 320px;
+  margin-left: auto;
+  margin-bottom: v.$spacing-lg;
+}

@@ -1,22 +1,45 @@
-import { Loading, ErrorState, EmptyState } from '../../../shared/components';
+import { useMemo, useState } from 'react';
+import { Loading, ErrorState, EmptyState, SearchBar } from '../../../shared/components';
 import { REQUEST_STATUS } from '../../../shared/constants/request-status.js';
 import { useProducts } from '../hooks/useProducts.js';
+import { filterProductsByQuery } from '../utils/filter-products.js';
 import { ProductGrid } from '../components/ProductGrid/ProductGrid.jsx';
+import styles from './ProductListPage.module.scss';
+
+const SEARCH_LABEL = 'Buscar por marca o modelo';
 
 export function ProductListPage() {
   const { status, products, reload } = useProducts();
+  const [query, setQuery] = useState('');
 
-  if (status === REQUEST_STATUS.LOADING) {
-    return <Loading label="Cargando productos…" />;
+  const filteredProducts = useMemo(() => filterProductsByQuery(products, query), [products, query]);
+
+  function renderContent() {
+    if (status === REQUEST_STATUS.LOADING) {
+      return <Loading label="Cargando productos…" />;
+    }
+
+    if (status === REQUEST_STATUS.ERROR) {
+      return <ErrorState message="No se han podido cargar los productos." onRetry={reload} />;
+    }
+
+    if (products.length === 0) {
+      return <EmptyState message="No hay productos disponibles." />;
+    }
+
+    if (filteredProducts.length === 0) {
+      return <EmptyState message={`No se han encontrado resultados para "${query}".`} />;
+    }
+
+    return <ProductGrid products={filteredProducts} />;
   }
 
-  if (status === REQUEST_STATUS.ERROR) {
-    return <ErrorState message="No se han podido cargar los productos." onRetry={reload} />;
-  }
-
-  if (products.length === 0) {
-    return <EmptyState message="No hay productos disponibles." />;
-  }
-
-  return <ProductGrid products={products} />;
+  return (
+    <div className={styles.page}>
+      <div className={styles.searchBar}>
+        <SearchBar label={SEARCH_LABEL} placeholder={SEARCH_LABEL} value={query} onChange={setQuery} />
+      </div>
+      {renderContent()}
+    </div>
+  );
 }
